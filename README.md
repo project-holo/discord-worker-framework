@@ -95,10 +95,10 @@ worker.startConsuming().then(() => {
 ```
 
 ## Incoming Event Structure
-All received events from the MessageBrokerConsumer must follow a standard
+All received events from the MessageBrokerConsumer must follow a standard JSON
 structure or they will cause the Worker to fail to process incoming events:
 
-```json
+```js
 {
   "type": "", // Discord event type, e.g. MESSAGE_CREATE, GUILD_CREATE
   "shard_id": 0, // shard ID which the event was received from
