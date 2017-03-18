@@ -1,0 +1,36 @@
+{
+  "name": "discord-worker-framework",
+  "description": "Discord multiservice worker framework consuming from various message brokers.",
+  "homepage": "https://github.com/project-holo/discord-worker-framework#readme",
+  "author": "Dean Sheather <dean@deansheather.com>",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/project-holo/discord-worker-framework.git"
+  },
+  "bugs": {
+    "url": "https://github.com/project-holo/discord-worker-framework/issues"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "framework",
+    "microservice"
+  ],
+  "dependencies": {
+    "eventemitter3": "^2.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^3.17.1",
+    "eslint-config-semistandard": "^8.0.0",
+    "eslint-config-standard": "^7.0.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^2.1.1"
+  },
+  "optionalDependencies": {}
+}
