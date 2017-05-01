@@ -8,9 +8,9 @@ This package consumes from a message broker such as ActiveMQ or RabbitMQ, parses
 and validates incoming data and emits it to be processed by the bot-specific
 code.
 
-This package also incorporates a `DiscordRestClient`, which can be used for
-sending information to the Discord API directly or through a rate-limiting
-proxy. Ratelimits are managed by default, but this is configurable.
+This package also includes a `DiscordRestClient`, which can be used for sending
+information to the Discord API directly or through a rate-limiting proxy.
+Ratelimits are managed by default, but this can be disabled.
 
 ## NOTE: THIS PACKAGE MAY BREAK AT ANY TIME
 
