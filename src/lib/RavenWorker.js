@@ -1,10 +1,5 @@
-'use strict';
-
-const OptionsError = require('./errors/OptionsError.js');
 const RavenClient = require('raven').Client;
 const Worker = require('./Worker.js');
-
-module.exports =
 
 /**
  * An almost identical interface to Worker, with the same purpose, but wraps all
@@ -26,10 +21,12 @@ class RavenWorker extends Worker {
     super(options);
 
     if (!(options.ravenClient instanceof RavenClient)) {
-      throw new OptionsError('ravenClient', 'not instance of Raven.Client');
+      throw new Error('ravenClient is not an instance of Raven.Client');
     }
     this._ravenClient = options.ravenClient;
   }
 
   // TODO: the rest of these methods...
-};
+}
+
+module.exports = RavenWorker;

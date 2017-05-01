@@ -5,7 +5,7 @@
   "author": "Dean Sheather <dean@deansheather.com>",
   "version": "0.1.0",
   "license": "MIT",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -23,7 +23,7 @@
     "microservice"
   ],
   "dependencies": {
-    "eventemitter3": "^2.0.2"
+    "form-data": "^2.1.4"
   },
   "devDependencies": {
     "eslint": "^3.17.1",
@@ -32,5 +32,8 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^2.1.1"
   },
-  "optionalDependencies": {}
+  "optionalDependencies": {
+    "eventemitter3": "^2.0.2",
+    "raven": "^1.2.1"
+  }
 }

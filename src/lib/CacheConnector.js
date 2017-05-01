@@ -1,5 +1,3 @@
-'use strict';
-
 const NotImplementedError = require('./errors/NotImplementedError.js');
 
 /**
@@ -14,8 +12,6 @@ const defaultCacheLevel = {
   persona: false,
   roles: true
 };
-
-module.exports =
 
 /**
  * Cache interface for the framework, attached to a worker by using `attach()`.
@@ -71,7 +67,9 @@ class CacheConnector {
       `__process() is not implemented for ${this.constructor.name}`
     );
   }
-};
+}
+
+module.exports = CacheConnector;
 
 // Expose defaultCacheLevel
 module.exports.defaultCacheLevel = defaultCacheLevel;

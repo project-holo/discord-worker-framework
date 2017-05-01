@@ -1,17 +1,24 @@
-'use strict';
-
-const EventEmitter = require('eventemitter3');
 const MessageBrokerConsumer = require('./MessageBrokerConsumer.js');
-const OptionsError = require('./errors/OptionsError.js');
 
 /**
- * @callback preEventProcessHook
+ * @callback PreEventProcessHook
  * @param {Object} data Parsed JSON object of the raw event data.
  * @return {Object|Promise<Object>} Return data when finished with it
  * synchronously or in a promise.
  */
 
-module.exports =
+/**
+ * Event emitter to use for the master server events.
+ * @type EventEmitter
+ */
+let EventEmitter;
+
+// Load eventemitter3 or Node.js EventEmitter if it's not available
+try {
+  EventEmitter = require('eventemitter3');
+} catch (err) {
+  EventEmitter = require('events').EventEmitter;
+}
 
 /**
  * Worker interface for the framework, manages a connection to a message broker
@@ -36,7 +43,7 @@ class Worker extends EventEmitter {
    * @param {String[]} [options.ignoredEvents] Events to be ignored and not
    * processed by the worker (e.g. `TYPING_START`). Ideally this should be
    * handled at the gateway intake level.
-   * @param {preEventProcessHook} [options.preEventProcessHook] Function to call
+   * @param {PreEventProcessHook} [options.preEventProcessHook] Function to call
    * with data when events are received. Allows for mutating objects before they
    * are processed internally and raw logging. All events will be passed to this
    * function, even if they are in `options.ignoredEvents`.
@@ -48,20 +55,20 @@ class Worker extends EventEmitter {
     super();
 
     if (!(options.messageBrokerConsumer instanceof MessageBrokerConsumer)) {
-      throw new OptionsError(
-        'messageBrokerConsumer', 'not instance of MessageBrokerConsumer'
+      throw new Error(
+        'messageBrokerConsumer is not an instance of MessageBrokerConsumer'
       );
     }
     this._messageBrokerConsumer = options.messageBrokerConsumer;
     if (options.ignoredEvents) {
       if (!Array.isArray(options.ignoredEvents)) {
-        throw new OptionsError('ignoredEvents', 'not an array');
+        throw new Error('ignoredEvents is not an array');
       }
       this._ignoredEvents = options.ignoredEvents;
     } else this._ignoredEvents = [];
     if (options.preEventProcessHook) {
       if (typeof options.preEventProcessHook !== 'function') {
-        throw new OptionsError('preEventProcessHook', 'not a function');
+        throw new Error('preEventProcessHook is not a function');
       }
       this._preEventProcessHook = options.preEventProcessHook;
     }
@@ -97,16 +104,13 @@ class Worker extends EventEmitter {
   /**
    * Instructs the MessageBrokerConsumer provided in the constructor to
    * disconnect from the broker and stop consuming messages.
-   * @return {Promise} Passthrough of the promise from the `stop()` method on
-   * the MessageBrokerConsumer.
+   * @return {Promise}
    */
-  stopConsuming () {
-    return new Promise((resolve, reject) => {
-      if (!this._messageBrokerConsumer.active) {
-        return reject(new Error('MessageBrokerConsumer is not active'));
-      }
-      this._messageBrokerConsumer.stop().then(resolve).catch(reject);
-    });
+  async stopConsuming () {
+    if (!this._messageBrokerConsumer.active) {
+      throw new Error('MessageBrokerConsumer is not active');
+    }
+    return await this._messageBrokerConsumer.stop();
   }
 
   /**
@@ -126,4 +130,6 @@ class Worker extends EventEmitter {
     this.emit('event:dispatch', data);
     this.emit(`discord:${data.type}`, data);
   }
-};
+}
+
+module.exports = Worker;
