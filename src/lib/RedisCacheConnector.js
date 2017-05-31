@@ -2,10 +2,7 @@ const CacheConnector = require('./CacheConnector.js');
 const redis = require('redis');
 
 /**
- * Cache interface for the framework, attached to a worker by using `attach()`.
- * Allows for data from the worker to be cached, similar to how a Discord
- * library like Eris caches data for the lifetime of the process (and keeps it
- * up to date with new data).
+ * Redis-based cache interface for the framework.
  */
 class RedisCacheConnector extends CacheConnector {
   /**
@@ -68,7 +65,7 @@ class RedisCacheConnector extends CacheConnector {
    * @param {String} key
    * @return {Promise}
    */
-  async __delete (type, key) {
+  __delete (type, key) {
     return new Promise((resolve, reject) => {
       this._client.del(`${type}_${key}`, (err, res) => {
         if (err) return reject(err);

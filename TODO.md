@@ -10,8 +10,8 @@
 - [ ] Add DiscordRestClient
     - [ ] Add all routes
     - [ ] Add ratelimiting support
-- [ ] Add bundled CacheConnectors
-    - [ ] MemoryCacheConnector
+- [x] Add bundled CacheConnectors
+    - [x] MemoryCacheConnector
     - [x] RedisCacheConnector
 - [ ] Add bundled MessageBrokerConsumers
     - [ ] AMQPMessageBrokerConsumer
@@ -25,8 +25,7 @@
 
 - [ ] Write examples
     - [x] Basic ping pong example
-    - [ ] Caching example
-        - [ ] Add RedisCacheConnector example
+    - [x] Caching example
     - [x] Raven worker example
     - [x] DiscordRestClient example
     - [ ] Examples for each bundled MessageBrokerConsumer
