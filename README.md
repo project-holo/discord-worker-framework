@@ -23,7 +23,7 @@ unless you know what you are doing.
 - Fast
 - Low-level
 - Customizable
-- Connects to any message broker (adapters are included for MQTT and AMQP)
+- Connects to any message broker (adapters are included for AMQP and STOMP)
 - Allows for caching (included adapter available for Redis)
 - Allows for collecting statistics via an event emitter
 
@@ -35,9 +35,9 @@ npm install discord-worker-framework --no-optional
 # Install EventEmitter3 for extra performance
 npm install eventemitter3
 
-# If you would like to use the included Redis, MQTT or AMQP adapters, make sure
-# that `redis`, `mqtt` and/or `amqp.node` are installed:
-npm install redis mqtt amqp.node
+# If you would like to use the included Redis, AMQP or STOMP adapters, make sure
+# that `redis`, `amqp.node` and/or `stompit` are installed:
+npm install redis amqp.node stompit
 ```
 
 ## Usage and Examples
@@ -60,7 +60,7 @@ structure or they will cause the Worker to fail to process incoming events:
 }
 ```
 
-[project-holo/discord-gateway-client](https://github.com/project-holo/discord-gateway-client)
+[discord-gateway-client](https://github.com/project-holo/discord-gateway-client)
 is a project written in Golang that sends websocket events in this structure to
 a STOMP broker, and is intended for use with this framework.
 
@@ -68,12 +68,13 @@ a STOMP broker, and is intended for use with this framework.
 
 The Worker currently emits the following events:
 
-- `discord:*`: Discord events, see example above
+- `discord:*`: Discord events, see examples for more information
+  - i.e. `discord:MESSAGE_CREATE` is a `MESSAGE_CREATE` event from Discord
 - `event:recv`: emitted when any event is received, with the data
 - `event:tested`: emitted when any event has been verified to match the event
   structure schema (with result)
 - `event:dispatch`: emitted when any event is broadcasted to listener
-  (`discord:*`), with the data
+  (`discord:*`), with the raw received object from the MessageBrokerConsumer
 
 ## Contributing
 

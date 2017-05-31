@@ -11,7 +11,8 @@
     - [ ] Add all routes
     - [ ] Add ratelimiting support
 - [ ] Add bundled CacheConnectors
-    - [ ] RedisCacheConnector
+    - [ ] MemoryCacheConnector
+    - [x] RedisCacheConnector
 - [ ] Add bundled MessageBrokerConsumers
     - [ ] AMQPMessageBrokerConsumer
     - [ ] STOMPMessageBrokerConsumer
@@ -35,8 +36,11 @@
 #### Tests
 
 - [ ] Pick a CI
+    - CircleCI
+    - Travis CI
 - [ ] Write tests
     - [ ] CacheConnector
+        - [ ] MemoryCacheConnector
         - [ ] RedisCacheConnector
     - [ ] DiscordRestClient
     - [ ] MessageBrokerConsumer
