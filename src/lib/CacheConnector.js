@@ -185,6 +185,7 @@ class CacheConnector extends EventEmitter {
 
   /**
    * Internal method for processing incoming events.
+   * @private
    * @param {Object} event
    */
   async __process (event) {
@@ -209,6 +210,7 @@ class CacheConnector extends EventEmitter {
 
   /**
    * Get method for retrieving data from the cache.
+   * @private
    * @param {String} type
    * @param {String} key
    * @return {Promise<Object|null>}
@@ -221,6 +223,7 @@ class CacheConnector extends EventEmitter {
 
   /**
    * Get method for writing data to the cache.
+   * @private
    * @param {String} type
    * @param {String} key
    * @param {Object} value
@@ -234,6 +237,7 @@ class CacheConnector extends EventEmitter {
 
   /**
    * Get method for deleting data from the cache.
+   * @private
    * @param {String} type
    * @param {String} key
    * @return {Promise}

@@ -6,3 +6,8 @@ try {
   require('raven');
   exports.RavenWorker = require('./lib/RavenWorker.js');
 } catch (e) {}
+
+try {
+  require('redis');
+  exports.RedisCacheConnector = require('./lib/RedisCacheConnector.js');
+} catch (e) {}
