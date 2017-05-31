@@ -2,7 +2,6 @@ const FormData = require('form-data');
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
-const stream = require('stream');
 const url = require('url');
 
 /**
@@ -80,7 +79,7 @@ class DiscordRestClient {
       if (typeof contentType === 'string') {
         req.setHeader('Content-Type', contentType);
       }
-      if (body instanceof stream.Readable) {
+      if (typeof body.pipe === 'function') {
         body.pipe(req);
       } else {
         req.end(body);
@@ -157,8 +156,9 @@ class DiscordRestClient {
       if (typeof content.file.file === 'string') {
         content.file.file = fs.createReadStream(content.file.file);
       }
-      if (!(Buffer.isBuffer(content.file.file) ||
-        content.file.file instanceof stream.Readable)) {
+      if (!(content.file.file !== undefined || content.file.file !== null ||
+        Buffer.isBuffer(content.file.file) ||
+        typeof content.file.file.pipe === 'function')) {
         throw new Error('content.file.file is not a Buffer or ReadableStream');
       }
 
@@ -187,7 +187,7 @@ class DiscordRestClient {
     if (typeof content.file === 'object' && content.file !== null) {
       const form = new FormData();
       form.append('payload_json', encodeURIComponent(JSON.stringify(payload)));
-      form.append('file', content.file, {
+      form.append('file', content.file.file, {
         header: `\r\n--${form.getBoundary()}\r\nContent-Disposition: ` +
           `form-data; name="file"; filename="${content.file.filename}"` +
           (content.file.contentType ? '\r\nContent-Type: ' +
@@ -206,7 +206,6 @@ class DiscordRestClient {
 
     // Validate response
     let resBody = await this.collectResponse(res);
-    console.log(resBody);
     resBody = JSON.parse(resBody);
     if (res.statusCode !== 200) {
       if ('code' in resBody && 'message' in resBody) {
