@@ -9,10 +9,12 @@ const restClient = new DiscordWorkerFramework.DiscordRestClient({
 // eslint-disable-next-line no-unused-vars
 const customRestClient = new DiscordWorkerFramework.DiscordRestClient({
   token: 'INSERT TOKEN HERE',
-  enableRatelimits: false, // Disable ratelimit enforcement (useful for custom
-                           // ratelimiting proxies)
-  endpoint: 'http://discord-proxy-prod:8080/' // Custom API endpoint, defaults
-                                              // to https://discordapp.com/api/
+
+  // Disable ratelimit enforcement (useful for custom ratelimiting proxies)
+  enableRatelimits: false,
+
+  // Custom API endpoint, defaults to https://discordapp.com/api/
+  endpoint: 'http://discord-proxy-prod:8080/'
 });
 
 // Create a message with a content, an embed and a file

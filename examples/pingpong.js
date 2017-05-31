@@ -25,6 +25,7 @@ worker.on('discord:MESSAGE_CREATE', e => {
 worker.startConsuming().then(() => {
   console.log('Ready to rumble!');
 }).catch(err => {
+  console.error('Failed to start consuming:');
   console.error(err.stack);
   process.exit(1);
 });
