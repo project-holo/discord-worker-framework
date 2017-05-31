@@ -3,8 +3,7 @@ const MessageBrokerConsumer = require('./MessageBrokerConsumer.js');
 /**
  * @callback PreEventProcessHook
  * @param {Object} data Parsed JSON object of the raw event data.
- * @return {Object|Promise<Object>} Return data when finished with it
- * synchronously or in a promise.
+ * @return {Promise<Object|null>} New data object or null to stop processing.
  */
 
 /**
@@ -92,13 +91,11 @@ class Worker extends EventEmitter {
    * @return {Promise} Passthrough of the promise from the `start()` method on
    * the MessageBrokerConsumer.
    */
-  startConsuming () {
-    return new Promise((resolve, reject) => {
-      if (this._messageBrokerConsumer.active) {
-        return reject(new Error('MessageBrokerConsumer is already active'));
-      }
-      this._messageBrokerConsumer.start().then(resolve).catch(reject);
-    });
+  async startConsuming () {
+    if (this._messageBrokerConsumer.active) {
+      throw new Error('MessageBrokerConsumer is already active');
+    }
+    return await this._messageBrokerConsumer.start();
   }
 
   /**
@@ -124,11 +121,18 @@ class Worker extends EventEmitter {
     if (this._ignoredEvents.includes(data.type)) return;
 
     // TODO: implement event:tested and verifyData
-    // TODO: implement preEventProcessHook
 
-    // Dispatch event to listeners
-    this.emit('event:dispatch', data);
-    this.emit(`discord:${data.type}`, data);
+    // Dispatch event to listeners (after running preEventProcessHook)
+    if (this._preEventProcessHook) {
+      this._preEventProcessHook(data).then(data => {
+        if (!data) return;
+        this.emit('event:dispatch', data);
+        this.emit(`discord:${data.type}`, data);
+      });
+    } else {
+      this.emit('event:dispatch', data);
+      this.emit(`discord:${data.type}`, data);
+    }
   }
 }
 
