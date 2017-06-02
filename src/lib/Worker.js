@@ -95,7 +95,7 @@ class Worker extends EventEmitter {
     if (this._messageBrokerConsumer.active) {
       throw new Error('MessageBrokerConsumer is already active');
     }
-    return await this._messageBrokerConsumer.start();
+    return this._messageBrokerConsumer.start();
   }
 
   /**
@@ -107,7 +107,7 @@ class Worker extends EventEmitter {
     if (!this._messageBrokerConsumer.active) {
       throw new Error('MessageBrokerConsumer is not active');
     }
-    return await this._messageBrokerConsumer.stop();
+    return this._messageBrokerConsumer.stop();
   }
 
   /**
